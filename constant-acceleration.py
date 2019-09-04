@@ -34,18 +34,25 @@ Q = 400* np.array([[(pow(delT, 5)/ 20),(pow(delT, 4)/8),(pow(delT, 3)/6)],
               [(pow(delT, 4)/8),(pow(delT, 3)/3),(pow(delT,2)/2)],
               [(pow(delT, 3)/6),(pow(delT, 2)/2),delT]])
 R = np.array([1])
-z = [2.5, 1 ,4 ,2.5 ,5.5]
+z= [2,4,6,8,10,12,14,16,18,20]
 x_arr = []
 k_arr = []
+v_arr = []
+a_arr = []
 
-for i in range(0, 5):
+for i in range(0, len(z)):
     (xpred, Ppred) = predict(x, P, F, Q)
     (nu, S) = innovation(xpred, Ppred, z[i], H, R)
     (x, P) = innovation_update(xpred, Ppred, nu, S, H)
     x_arr.append(x[0][0])
+    v_arr.append(x[1][0])
+    a_arr.append(x[2][0])
     print(x)
 
-time = range(0, 5)
+time = range(0, len(z))
 plt.plot( time, z, label='measurement')
 plt.plot(time, x_arr, label= 'estimate')
+plt.plot(time, v_arr, label='velocity')
+plt.plot(time, a_arr, label='acceleration')
+plt.legend(fontsize='x-large')
 plt.show()
